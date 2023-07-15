@@ -66,14 +66,14 @@ const userController = {
         return res.status(401).json({ error: "Senha incorreta" });
       }
 
-      const token = jwt.sign({ userId: user._id }, secretKey);
+      const token = jwt.sign({ id: user._id }, secretKey);
 
       const NewCart = {
         token,
       };
       await Carts.insertOne(NewCart);
 
-      res.status(200).json({ message: "Usuário logado", token });
+      res.status(200).json({ message: "Usuário logado" });
     } catch (error) {
       res.status(401).json({ error: error.message });
     }

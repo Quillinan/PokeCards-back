@@ -18,7 +18,7 @@ const port = process.env.PORT || 5000;
 const mongoClient = new MongoClient(process.env.DATABASE_URL);
 
 try {
-  await mongoClient.connect(); // top level await
+  await mongoClient.connect();
   console.log("MongoDB conectado!");
 } catch (err) {
   (err) => console.log(err.message);
