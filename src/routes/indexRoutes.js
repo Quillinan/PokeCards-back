@@ -4,7 +4,7 @@ import userRoutes from "./userRoutes.js";
 
 const router = express.Router();
 
-router.use("/users", userRoutes);
+router.use("/user", userRoutes);
 // router.use("/cards", cardRoutes);
 
 export default router;

@@ -1,7 +1,8 @@
 import { db } from "../app.js";
 import bcrypt from "bcrypt";
-import { v4 as uuid } from "uuid";
+import jwt from "jsonwebtoken";
 import { signInSchema, signUpSchema } from "../schemas/schemaUser.js";
+import { secretKey } from "../config.js";
 
 const userController = {
   signUp: async (req, res) => {
@@ -14,8 +15,8 @@ const userController = {
         return res.status(422).json({ error: error.details[0].message });
       }
 
-      const User = db.collection("users");
-      const existingUser = await User.findOne({ email });
+      const Users = db.collection("users");
+      const existingUser = await Users.findOne({ email });
       if (existingUser) {
         return res.status(409).json({ error: "Email já utilizado!" });
       }
@@ -28,7 +29,7 @@ const userController = {
         password: hashedPassword,
       };
 
-      await User.insertOne(newUser);
+      await Users.insertOne(newUser);
       res.status(201).json({ message: "Usuário criado" });
     } catch (error) {
       res.status(401).json({ error: error.message });
@@ -37,78 +38,44 @@ const userController = {
   signIn: async (req, res) => {
     try {
       const { email, name, password } = req.body;
-  
-      const User = db.collection("users");
-      const Session = db.collection("sessions");
-  
+
+      const Users = db.collection("users");
+      const Carts = db.collection("carts");
+
       let user;
       if (email || name) {
         const { error } = signInSchema.validate({ email, name, password });
-  
+
         if (error) {
           return res.status(422).json({ error: error.details[0].message });
         }
-  
+
         if (email) {
-          user = await User.findOne({ email });
+          user = await Users.findOne({ email });
         } else {
-          user = await User.findOne({ name });
+          user = await Users.findOne({ name });
         }
       }
-  
+
       if (!user) {
         return res.status(404).json({ error: "Usuário não cadastrado" });
       }
-  
+
       const checkPassword = bcrypt.compareSync(password, user.password);
       if (!checkPassword) {
         return res.status(401).json({ error: "Senha incorreta" });
       }
-  
-      const existingSession = await Session.findOne({ email: user.email });
-  
-      const token = uuid();
-  
-      if (existingSession) {
-        await Session.updateOne({ email: user.email }, { $set: { token } });
-      } else {
-        const session = {
-          token,
-          email: user.email,
-          name: user.name,
-        };
-        await Session.insertOne(session);
-      }
-  
+
+      const token = jwt.sign({ userId: user._id }, secretKey);
+
+      const NewCart = {
+        token,
+      };
+      await Carts.insertOne(NewCart);
+
       res.status(200).json({ message: "Usuário logado", token });
     } catch (error) {
       res.status(401).json({ error: error.message });
-    }
-  },
-  logout: async (req, res) => {
-    try {
-      const { email } = req.user;
-  
-      const Session = db.collection("sessions");
-      await Session.updateOne({ email }, { $set: { token: "" } });
-  
-      res.status(200).json({ message: "Usuário deslogado" });
-    } catch (error) {
-      res.status(401).json({ error: error.message });
-    }
-  },
-  getSessionbyToken: async (req, res) => {
-    try {
-      const token = req.headers.token;
-  
-      const sessions = db.collection("sessions");
-      const session = await sessions.findOne({ token });
-      const name = session.name;
-
-  
-      res.status(200).json({ name });
-    } catch (error) {
-      res.status(500).json({ error: error.message });
     }
   },
 };
