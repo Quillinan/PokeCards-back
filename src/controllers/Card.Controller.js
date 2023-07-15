@@ -28,6 +28,16 @@ const cardController = {
       res.status(500).json({ error: error.message });
     }
   },
+  getCards: async (_, res) => {
+    try {
+      const Cards = db.collection("cards");
+      const allCards = await Cards.find().toArray();
+
+      res.status(200).json(allCards);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 };
 
 export default cardController;
