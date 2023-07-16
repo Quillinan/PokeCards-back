@@ -73,7 +73,7 @@ const userController = {
       };
       await Carts.insertOne(NewCart);
 
-      res.status(200).json({ message: "Usuário logado" });
+      res.status(200).json({ message: "Usuário logado", token });
     } catch (error) {
       res.status(401).json({ error: error.message });
     }

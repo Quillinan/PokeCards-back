@@ -11,8 +11,8 @@ const verifyToken = async (req, res, next) => {
   }
 
   try {
-    const decodedID = jwt.verify(token, secretKey);
-    const id = new ObjectId(decodedID.id);
+    const decodedId = jwt.verify(token, secretKey);
+    const id = new ObjectId(decodedId.id);
 
     const Users = db.collection("users");
     const user = await Users.findOne({ _id: id });
