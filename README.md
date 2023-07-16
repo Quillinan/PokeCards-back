@@ -2,7 +2,7 @@
 
 Back-end do projeto de um marketplace de cards de Pokemon.
 
-commands:
+Comandos:
 
 - git clone https://github.com/Quillinan/PokeCards-back.git
 - cd PokeCards-back
