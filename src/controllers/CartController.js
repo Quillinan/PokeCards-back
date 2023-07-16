@@ -102,6 +102,10 @@ const cartController = {
         return res.status(404).json({ error: "Carrinho não encontrado" });
       }
 
+      if (!cart.cards || cart.cards.length === 0) {
+        return res.status(200).json({ cards: [] });
+      }
+
       const cardIds = cart.cards.map((card) => card._id);
 
       const cards = await Cards.find({ _id: { $in: cardIds } }).toArray();
