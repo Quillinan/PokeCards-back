@@ -71,21 +71,16 @@ const cartController = {
       const cardId = req.body.cardId;
 
       const Carts = db.collection("carts");
-      const Cards = db.collection("cards");
 
-      const cart = await Carts.findOne({ token });
+      const cart = await Carts.findOneAndUpdate(
+        { token },
+        { $pull: { cards: { _id: new ObjectId(cardId) } } },
+        { returnOriginal: false }
+      );
 
       if (!cart) {
         return res.status(404).json({ error: "Carrinho não encontrado" });
       }
-
-      const card = await Cards.findOne({ _id: new ObjectId(cardId) });
-
-      if (!card) {
-        return res.status(404).json({ error: "Card não encontrado" });
-      }
-
-      await Carts.updateOne({ _id: cart._id }, { $pull: { cards: card._id } });
 
       res
         .status(200)

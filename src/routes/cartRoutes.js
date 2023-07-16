@@ -11,7 +11,7 @@ cartRoutes.post("/add-to-cart", verifyToken, cartController.addToCart);
 cartRoutes.post("/checkout", verifyToken, cartController.checkout);
 
 //Rota para remover um card do carrinho.
-cartRoutes.post(
+cartRoutes.delete(
   "/remove-from-cart",
   verifyToken,
   cartController.removeFromCart
