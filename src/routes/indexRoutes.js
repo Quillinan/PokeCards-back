@@ -5,6 +5,9 @@ import cartRoutes from "./cartRoutes.js";
 
 const router = express.Router();
 
+router.get("/", (req, res) => {
+  res.send("PokeCards vive!!");
+});
 router.use("/user", userRoutes);
 router.use("/card", cardRoutes);
 router.use("/cart", cartRoutes);
