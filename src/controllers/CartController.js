@@ -48,7 +48,10 @@ const cartController = {
 
       const cardIds = cart.cards.map((card) => new ObjectId(card._id));
 
-      await Cards.deleteMany({ _id: { $in: cardIds } });
+      await Cards.updateMany(
+        { _id: { $in: cardIds } },
+        { $set: { sold: true } }
+      );
 
       const userId = req.user._id;
       const newToken = jwt.sign({ id: userId }, secretKey);

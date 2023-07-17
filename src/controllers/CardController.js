@@ -18,6 +18,7 @@ const cardController = {
         name,
         value,
         ownerId: req.user._id,
+        sold: false,
       };
 
       const Cards = db.collection("cards");
