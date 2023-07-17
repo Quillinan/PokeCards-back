@@ -39,6 +39,19 @@ const cardController = {
       res.status(500).json({ error: error.message });
     }
   },
+  getUserCards: async (req, res) => {
+    try {
+      const userId = req.user._id;
+      const Cards = db.collection("cards");
+      const userCards = await Cards.find({
+        ownerId: userId,
+      }).toArray();
+
+      res.status(200).json(userCards);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
 };
 
 export default cardController;
