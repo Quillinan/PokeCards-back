@@ -8,3 +8,6 @@ Comandos:
 - cd PokeCards-back
 - npm i
 - npm start
+
+Deploy Render:
+https://pokecard-api.onrender.com
