@@ -1,6 +1,8 @@
 # PokeCards-back
 
-Back-end do projeto de um marketplace de cards de Pokemon.
+Back-end do projeto fullstack de um marketplace de cards de Pokemon.
+
+Repositório do front: https://github.com/Quillinan/PokeCards-front
 
 Comandos:
 
