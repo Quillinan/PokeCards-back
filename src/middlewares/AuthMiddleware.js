@@ -1,6 +1,6 @@
 import { db } from "../app.js";
 import jwt from "jsonwebtoken";
-import { secretKey } from "../config.js";
+import "dotenv/config";
 import { ObjectId } from "mongodb";
 
 const verifyToken = async (req, res, next) => {
@@ -11,7 +11,7 @@ const verifyToken = async (req, res, next) => {
   }
 
   try {
-    const decodedId = jwt.verify(token, secretKey);
+    const decodedId = jwt.verify(token, process.env.SECRET_KEY);
     const id = new ObjectId(decodedId.id);
 
     const Users = db.collection("users");

@@ -1,37 +1,24 @@
 import express from "express";
 import cors from "cors";
-import { MongoClient } from "mongodb";
 import "dotenv/config";
-import bodyParser from "body-parser";
-import indexRoutes from "./routes/indexRoutes.js";
+import indexRoutes from "./routers/indexRoutes.js";
+import { mongoClient } from "./database/database.js";
 
-// Criação do app
 const app = express();
-
-// Configurações
-app.use(cors());
-app.use(express.json());
-
 const port = process.env.PORT || 5000;
 
-// Conexão com o Banco
-const mongoClient = new MongoClient(process.env.DATABASE_URL);
+// Configuração do MongoDB
+mongoClient.connect();
+export const db = mongoClient.db();
 
-try {
-  await mongoClient.connect();
-  console.log("MongoDB conectado!");
-} catch (err) {
-  (err) => console.log(err.message);
-}
+// Middlewares
+app.use(cors());
+app.use(express.json()); // Substitui a necessidade do body-parser
 
-const db = mongoClient.db();
-
-app.use(bodyParser.json());
-
+// Rotas
 app.use(indexRoutes);
 
+// Inicialização do servidor
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
 });
-
-export { db };

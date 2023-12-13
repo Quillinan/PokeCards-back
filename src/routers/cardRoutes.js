@@ -1,6 +1,6 @@
 import express from "express";
 import verifyToken from "../middlewares/AuthMiddleware.js";
-import cardController from "../controllers/CardController.js";
+import cardController from "../controllers/cardController.js";
 
 const cardRoutes = express.Router();
 

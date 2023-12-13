@@ -2,7 +2,7 @@ import { db } from "../app.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { signInSchema, signUpSchema } from "../schemas/schemaUser.js";
-import { secretKey } from "../config.js";
+import "dotenv/config";
 
 const userController = {
   signUp: async (req, res) => {
@@ -66,7 +66,7 @@ const userController = {
         return res.status(401).json({ error: "Senha incorreta" });
       }
 
-      const token = jwt.sign({ id: user._id }, secretKey);
+      const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
 
       const NewCart = {
         token,

@@ -1,7 +1,7 @@
 import { db } from "../app.js";
 import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
-import { secretKey } from "../config.js";
+import "dotenv/config";
 
 const cartController = {
   addToCart: async (req, res) => {
@@ -54,7 +54,7 @@ const cartController = {
       );
 
       const userId = req.user._id;
-      const newToken = jwt.sign({ id: userId }, secretKey);
+      const newToken = jwt.sign({ id: userId }, process.env.SECRET_KEY);
 
       const newCart = {
         token: newToken,
@@ -127,7 +127,7 @@ const cartController = {
       const validCarts = [];
 
       for (const cart of carts) {
-        const decodedToken = jwt.verify(cart.token, secretKey);
+        const decodedToken = jwt.verify(cart.token, process.env.SECRET_KEY);
         if (decodedToken.id == userId && cart.cards) {
           validCarts.push(cart);
         }
