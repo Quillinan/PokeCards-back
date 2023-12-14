@@ -2,7 +2,11 @@
 import { MongoClient } from "mongodb";
 import "dotenv/config";
 
-export const mongoClient = new MongoClient(process.env.DATABASE_URL);
+const databaseName = process.env.DATABASE_NAME;
+const databaseUrlPrefix = process.env.DATABASE_URL_PREFIX;
+const databaseUrl = `${databaseUrlPrefix}${databaseName}`;
+
+export const mongoClient = new MongoClient(databaseUrl);
 
 const connectToDatabase = async () => {
   try {

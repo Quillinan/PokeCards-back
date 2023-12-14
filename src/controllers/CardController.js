@@ -4,7 +4,7 @@ const cardController = {
   addCard: async (req, res) => {
     try {
       await cardService.addCard(req);
-      res.status(200).json({ message: "Carta adicionada com sucesso" });
+      res.status(201).json({ message: "Carta adicionada com sucesso" });
     } catch (error) {
       res.status(422).json({ error: error.message });
     }
