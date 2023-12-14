@@ -1,6 +1,7 @@
-import userRepository from "./userRepository.js";
+import userRepository from "../repositories/userRepository.js";
 import { signUpSchema, signInSchema } from "../schemas/schemaUser.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 const userService = {
   signUp: async (user) => {

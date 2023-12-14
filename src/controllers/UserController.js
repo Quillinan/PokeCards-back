@@ -1,9 +1,9 @@
-import userService from "./userService.js";
+import userService from "../services/userService.js";
 
 const userController = {
   signUp: async (req, res) => {
-    const { name, email, password } = req.body;
-    await userService.signUp({ name, email, password });
+    const user = req.body;
+    await userService.signUp(user);
     res.status(201).json({ message: "Usuário criado" });
   },
 
