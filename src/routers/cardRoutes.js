@@ -4,13 +4,13 @@ import cardController from "../controllers/cardController.js";
 
 const cardRoutes = express.Router();
 
-// Rota de cadastro (signup)
-cardRoutes.post("/add-card", verifyToken, cardController.addCard);
+// Rota para adicionar um card
+cardRoutes.post("/", verifyToken, cardController.addCard);
 
 // Rota para obter todos os cards
-cardRoutes.get("/cards", verifyToken, cardController.getCards);
+cardRoutes.get("/", verifyToken, cardController.getCards);
 
 // Rota para obter cards do usuário
-cardRoutes.get("/user-cards", verifyToken, cardController.getUserCards);
+cardRoutes.get("/user", verifyToken, cardController.getUserCards);
 
 export default cardRoutes;
