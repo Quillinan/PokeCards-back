@@ -1,3 +1,4 @@
+import { invalidDataError } from "../errors/invalidDataError.js";
 import userRepository from "../repositories/userRepository.js";
 import { signUpSchema, signInSchema } from "../schemas/schemaUser.js";
 import bcrypt from "bcrypt";
@@ -8,17 +9,17 @@ const userService = {
     const { error } = signUpSchema.validate(user);
 
     if (error) {
-      throw new Error(error.details[0].message);
+      throw invalidDataError(error.details[0].message);
     }
 
     const existingUserEmail = await userRepository.findUserByEmail(user.email);
     if (existingUserEmail) {
-      throw new Error("Email já utilizado!");
+      throw invalidDataError("Email já cadastrado!");
     }
 
     const existingUserName = await userRepository.findUserByName(user.name);
     if (existingUserName) {
-      throw new Error("Nome já utilizado!");
+      throw invalidDataError("Nome já cadastrado!");
     }
 
     const hashedPassword = bcrypt.hashSync(user.password, 10);
@@ -31,7 +32,7 @@ const userService = {
     const { error } = signInSchema.validate(user);
 
     if (error) {
-      throw new Error(error.details[0].message);
+      throw invalidDataError(error.details[0].message);
     }
 
     let foundUser;
@@ -44,12 +45,12 @@ const userService = {
     }
 
     if (!foundUser) {
-      throw new Error("Usuário não cadastrado");
+      throw invalidDataError("Usuário não encontrado");
     }
 
     const checkPassword = bcrypt.compareSync(user.password, foundUser.password);
     if (!checkPassword) {
-      throw new Error("Senha incorreta");
+      throw invalidDataError("Senha incorreta");
     }
 
     const token = jwt.sign({ id: foundUser._id }, process.env.SECRET_KEY);

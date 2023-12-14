@@ -1,12 +1,14 @@
 import { cardSchema } from "../schemas/schemaCard.js";
 import cardRepository from "../repositories/cardRepository.js";
+import { invalidDataError } from "../errors/invalidDataError.js";
+import { notFoundError } from "../errors/notFoundError.js";
 
 const cardService = {
   addCard: async (req) => {
     const validationResult = cardSchema.validate(req.body);
 
     if (validationResult.error) {
-      throw new Error(validationResult.error.details[0].message);
+      throw invalidDataError(validationResult.error.details[0].message);
     }
 
     const { name, value } = req.body;
@@ -22,11 +24,19 @@ const cardService = {
   },
 
   getAllCards: async () => {
-    return await cardRepository.getAllCards();
+    const cards = await cardRepository.getAllCards();
+    if (cards.length === 0) {
+      throw notFoundError;
+    }
+    return cards;
   },
 
   getUserCards: async (userId) => {
-    return await cardRepository.getUserCards(userId);
+    const userCards = await cardRepository.getUserCards(userId);
+    if (userCards.length === 0) {
+      throw notFoundError;
+    }
+    return userCards;
   },
 };
 

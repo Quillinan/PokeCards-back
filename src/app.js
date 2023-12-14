@@ -3,6 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import indexRoutes from "./routers/indexRoutes.js";
 import { mongoClient } from "./database/database.js";
+import { handleApplicationErrors } from "./middlewares/errorHandling.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -17,6 +18,9 @@ app.use(express.json()); // Substitui a necessidade do body-parser
 
 // Rotas
 app.use(indexRoutes);
+
+// Middleware de tratamento de erros
+app.use(handleApplicationErrors);
 
 // Inicialização do servidor
 app.listen(port, () => {
