@@ -26,6 +26,8 @@ const userService = {
     user.password = hashedPassword;
 
     await userRepository.createUser(user);
+
+    return { message: "Usuário criado" };
   },
 
   signIn: async (user) => {

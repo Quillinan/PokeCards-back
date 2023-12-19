@@ -1,23 +1,21 @@
+import { handleApplicationErrors } from "../middlewares/errorHandling.js";
 import userService from "../services/userService.js";
 
 const userController = {
-  signUp: async (req, res) => {
-    // try {
-    //   const { name, email, password } = req.body;
-    //   await userService.signUp({ name, email, password });
-    //   res.status(201).json({ message: "Usuário criado" });
-    // } catch (error) {
-    //   res.status(401).json({ error: error.message });
-    // }
+  signUp: (req, res) => {
     const user = req.body;
-    await userService.signUp(user);
-    res.status(201).json({ message: "Usuário criado" });
+    userService
+      .signUp(user)
+      .then((message) => res.status(201).json(message))
+      .catch((err) => handleApplicationErrors(err, req, res));
   },
 
-  signIn: async (req, res) => {
+  signIn: (req, res) => {
     const user = req.body;
-    const result = await userService.signIn(user);
-    res.status(200).json(result);
+    userService
+      .signIn(user)
+      .then((result) => res.status(200).json(result))
+      .catch((err) => handleApplicationErrors(err, req, res));
   },
 };
 

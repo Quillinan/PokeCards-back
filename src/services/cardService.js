@@ -21,6 +21,8 @@ const cardService = {
     };
 
     await cardRepository.addCard(newCard);
+
+    return { message: "Carta adicionada com sucesso" };
   },
 
   getAllCards: async () => {
