@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
-import { db } from "../app";
+import { db } from "../app.js";
 
-export const cartRepository = {
+const cartRepository = {
   findCartByToken: async (token) => {
     const Carts = db.collection("carts");
     return await Carts.findOne({ token });
@@ -30,3 +30,5 @@ export const cartRepository = {
     return await Carts.insertOne({ token: newToken });
   },
 };
+
+export default cartRepository;
