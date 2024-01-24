@@ -13,7 +13,7 @@ export const db = mongoClient.db();
 
 // Middlewares
 app.use(cors());
-app.use(express.json()); // Substitui a necessidade do body-parser
+app.use(express.json());
 
 // Rotas
 app.use(indexRoutes);
