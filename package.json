@@ -22,7 +22,7 @@
     "http-status": "^1.7.3",
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.1",
-    "mongodb": "^5.6.0",
+    "mongodb": "^6.3.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

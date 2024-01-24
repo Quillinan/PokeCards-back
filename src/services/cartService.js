@@ -1,10 +1,10 @@
 import jwt from "jsonwebtoken";
 import { invalidDataError } from "../errors/invalidDataError.js";
-import cardRepository from "../repositories/cardRepository.js";
+import cartRepository from "../repositories/cartRepository.js";
 
-export const cartService = {
+const cartService = {
   addToCart: async (token, cardId) => {
-    const cart = await cardRepository.findCartByToken(token);
+    const cart = await cartRepository.findCartByToken(token);
 
     if (!cart) {
       throw invalidDataError("Carrinho não encontrado");
@@ -37,3 +37,5 @@ export const cartService = {
     return { message: "Compra finalizada com sucesso", newToken };
   },
 };
+
+export default cartService;

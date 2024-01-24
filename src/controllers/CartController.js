@@ -2,8 +2,8 @@ import { db } from "../app.js";
 import { ObjectId } from "mongodb";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import { cartService } from "../services/cartService.js";
 import { handleApplicationErrors } from "../middlewares/errorHandling.js";
+import cartService from "../services/cartService.js";
 
 const cartController = {
   addToCart: async (req, res) => {

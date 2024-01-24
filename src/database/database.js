@@ -4,7 +4,6 @@ import "dotenv/config";
 const databaseName = process.env.DATABASE_NAME;
 const databaseUrlPrefix = process.env.DATABASE_URL_PREFIX;
 const databaseUrl = `${databaseUrlPrefix}${databaseName}`;
-console.log(databaseUrl);
 
 export const mongoClient = new MongoClient(databaseUrl);
 

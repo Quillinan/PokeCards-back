@@ -1,7 +1,12 @@
 import { ObjectId } from "mongodb";
-import { db } from "../app";
+import { db } from "../app.js";
 
 export const cartRepository = {
+  findCartByToken: async (token) => {
+    const Carts = db.collection("carts");
+    return await Carts.findOne({ token });
+  },
+
   findCardById: async (cardId) => {
     const Cards = db.collection("cards");
     return await Cards.findOne({ _id: new ObjectId(cardId) });
@@ -30,3 +35,5 @@ export const cartRepository = {
     return await Carts.insertOne({ token: newToken });
   },
 };
+
+export default cartRepository;
